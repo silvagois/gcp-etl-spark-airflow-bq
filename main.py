@@ -34,9 +34,10 @@ df = df.withColumn('customer_city', functions.initcap(functions.col('customer_ci
 df.repartition(1)\
     .write.partitionBy('date_load')\
     .format('parquet')\
-    .mode('overwrite')\
+    .mode('append')\
     .save('gs://bucket-curated/olist/customer')
 
+'''
 # Load dados bigquery
 bq_dataset='olist'
 bq_table='tb_customer'
@@ -48,3 +49,4 @@ df.write \
     .option("temporaryGcsBucket", gcs_tmp_bucket) \
     .mode('overwrite') \
     .save()
+'''
