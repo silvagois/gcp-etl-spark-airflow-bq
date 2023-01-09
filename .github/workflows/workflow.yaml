@@ -4,19 +4,52 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+    - 'main'  
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+job:
+  job_id:
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
     steps:
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        credentials_json: '${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}'
+        project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v1'
+
+    - name: 'Use gcloud CLI'
+      run: 'gcloud info' 
+    
+    deploy:
+    runs-on: ubuntu-latest 
+
+    - run: gsutil cp spark_etl/main.py gs://stack-data-pipeline-gcp-mg-combustiveis-brasil-pyspark-code/main.py
+
+
+
+
+#jobs:
+ # deploy:
+  #  runs-on: ubuntu-latest
+   # steps:
       # Checkout the repository
-      - uses: actions/checkout@v2
+    #  - uses: actions/checkout@v2
 
       # Set up the Google Cloud SDK
-      - uses: google-github-actions/setup-gcloud@v0
-        with:
-          service_account_key: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
-          project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
+      #- uses: google-github-actions/setup-gcloud@v0
+     # - uses: 'google-github-actions/auth@main'
+      #  with:
+       #   credentials_json: '${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}'
+          #service_account_key: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+      #    project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
       
       # Deploy the file to the bucket
-      - run: gsutil cp spark_etl/main.py gs://stack-data-pipeline-gcp-mg-combustiveis-brasil-pyspark-code/main.py
+      #- run: gsutil cp spark_etl/main.py gs://stack-data-pipeline-gcp-mg-combustiveis-brasil-pyspark-code/main.py
