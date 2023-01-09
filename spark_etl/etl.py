@@ -23,3 +23,4 @@ def read_csv(file_path):
 
 
 pd.read_csv(r"C:\Users\marcosgois\Documents\spark\raw\estoque-2020-01-01.csv",sep=";")
+# testes
