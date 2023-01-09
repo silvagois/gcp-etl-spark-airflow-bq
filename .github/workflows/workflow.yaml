@@ -39,7 +39,7 @@ jobs:
       run: 'gcloud info'
     
     - id:  'Deploy'
-      run: gsutil cp spark_etl/main.py gs://stack-data-pipeline-gcp-mg-combustiveis-brasil-pyspark-code/main.py
+      run: gcloud storage cp spark_etl/main.py gs://stack-data-pipeline-gcp-mg-combustiveis-brasil-pyspark-code/main.py
 
 
 
