@@ -10,8 +10,8 @@ def start_or_create_spark():
     from pyspark.sql import SparkSession
     spark = (SparkSession
              .builder
-             .appName("Processamento de Dados de Gasolina no Brasil")
-             .config('spark.jars', 'gs://spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.23.2.jar')
+             .appName("Processamento de Dados de Customer Olist")
+             .config('spark.jars', 'gs://spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.27.1.jar')
              .getOrCreate()
              )
     return spark
@@ -37,7 +37,7 @@ df.repartition(1)\
     .mode('append')\
     .save('gs://bucket-curated/olist/customer')
 
-'''
+
 # Load dados bigquery
 bq_dataset='olist'
 bq_table='tb_customer'
@@ -49,4 +49,3 @@ df.write \
     .option("temporaryGcsBucket", gcs_tmp_bucket) \
     .mode('overwrite') \
     .save()
-'''
